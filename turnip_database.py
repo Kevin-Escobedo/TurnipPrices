@@ -6,13 +6,13 @@ class TurnipDatabase:
     def __init__(self):
         self.db = sqlite3.connect("turnips.db")
         self.cursor = self.db.cursor()
-        self.price_num = self.get_price_num()
-        self.week = self.get_week()
+        self.price_num = self.get_num("prices")
+        self.week = self.get_num("costs")
 
     def create_price_table(self) -> None:
         '''Creates a table to track prices in the database'''
         self.cursor.execute("""
-        CREATE TABLE IF NOT EXISTS prices (num INTEGER PRIMARY KEY, price INTEGER, day TEXT, time TEXT)""")
+        CREATE TABLE IF NOT EXISTS prices(num INTEGER PRIMARY KEY, price INTEGER, day TEXT, time TEXT)""")
 
         self.db.commit()
 
@@ -22,3 +22,52 @@ class TurnipDatabase:
         CREATE TABLE IF NOT EXISTS costs(week INTEGER PRIMARY KEY, price INTEGER, amount INTEGER, total INTEGER)""")
 
         self.db.commit()
+
+    def get_num(self, table_name:str) -> int:
+        '''Gets the current length of the specified database'''
+        try:
+            self.cursor.execute("SELECT * FROM {}".format(table_name))
+            return len(self.cursor.fetchall())
+        except sqlite3.OperationalError:
+            return 0
+
+    def insert_price(self, price:int, day:str, time:str) -> None:
+        '''Adds a new price point into the database'''
+        try:
+            self.cursor.execute("""INSERT INTO prices(num, price, day, time) VALUES(?, ?, ?, ?)""", (self.price_point, price, day, time))
+            self.price_point += 1
+
+        except sqlite3.IntegrityError:
+            self.price_point += 1
+            self.cursor.execute("""INSERT INTO prices(num, price, day, time) VALUES(?, ?, ?, ?)""", (self.price_point, price, day, time))
+
+    def insert_cost(self, price:int, amount:int) -> None:
+        '''Adds a new cost point into the database'''
+        try:
+            self.cursor.execute("""INSERT INTO costs(week, price, amount, total) VALUES(?, ?, ?, ?)""", (self.week, price, amount, price * amount))
+            self.week += 1
+
+        except sqlite3.IntegrityError:
+            self.week += 1
+            self.cursor.execute("""INSERT INTO costs(week, price, amount, total) VALUES(?, ?, ?, ?)""", (self.week, price, amount, total))
+
+    def delete_last_entry(self, table_name:str) -> None:
+        '''Removes the last entry in the table'''
+        if table_name == "prices":
+            command = "DELETE FROM prices WHERE num=?"
+        elif table_name == "costs":
+            command = "DELETE FROM costs WHERE week=?"
+        self.cursor.execute(command, (self.get_num(table_name),))
+        self.db.commit()
+
+    def close(self) -> None:
+        '''Closes the connection to the database'''
+        self.db.commit()
+        self.db.close()
+
+if __name__ == "__main__":
+    tp = TurnipDatabase()
+    tp.create_price_table()
+    tp.create_cost_table()
+    tp.insert_cost(92, 30)
+    tp.close()
