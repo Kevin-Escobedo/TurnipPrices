@@ -34,8 +34,8 @@ class TurnipDatabase:
     def insert_price(self, price:int, day:str, time:str) -> None:
         '''Adds a new price point into the database'''
         try:
-            self.cursor.execute("""INSERT INTO prices(num, price, day, time) VALUES(?, ?, ?, ?)""", (self.price_point, price, day, time))
             self.price_point += 1
+            self.cursor.execute("""INSERT INTO prices(num, price, day, time) VALUES(?, ?, ?, ?)""", (self.price_point, price, day, time))
 
         except sqlite3.IntegrityError:
             self.price_point += 1
@@ -44,8 +44,8 @@ class TurnipDatabase:
     def insert_cost(self, price:int, amount:int) -> None:
         '''Adds a new cost point into the database'''
         try:
-            self.cursor.execute("""INSERT INTO costs(week, price, amount, total) VALUES(?, ?, ?, ?)""", (self.week, price, amount, price * amount))
             self.week += 1
+            self.cursor.execute("""INSERT INTO costs(week, price, amount, total) VALUES(?, ?, ?, ?)""", (self.week, price, amount, price * amount))
 
         except sqlite3.IntegrityError:
             self.week += 1
