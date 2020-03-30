@@ -6,7 +6,7 @@ class TurnipDatabase:
     def __init__(self):
         self.db = sqlite3.connect("turnips.db")
         self.cursor = self.db.cursor()
-        self.price_num = self.get_num("prices")
+        self.price_point = self.get_num("prices")
         self.week = self.get_num("costs")
 
     def create_price_table(self) -> None:
@@ -67,7 +67,5 @@ class TurnipDatabase:
 
 if __name__ == "__main__":
     tp = TurnipDatabase()
-    tp.create_price_table()
-    tp.create_cost_table()
-    tp.insert_cost(92, 30)
+    tp.insert_price(69, "Monday", "Morning")
     tp.close()
