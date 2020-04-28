@@ -1,4 +1,4 @@
-#Author:Kevin C. Escobedo
+#Author: Kevin C. Escobedo
 #Email: escobedo001@gmail.com
 import turnip_database as td
 import datetime
