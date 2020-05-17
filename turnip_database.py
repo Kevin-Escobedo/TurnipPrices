@@ -67,7 +67,7 @@ class TurnipDatabase:
 
 if __name__ == "__main__":
     tp = TurnipDatabase()
-    tp.insert_cost(98, 10)
+    tp.insert_cost(100, 300)
     #tp.delete_last_entry("prices")
     #tp.insert_cost(103, 150)
     #tp.insert_cost(98, 250)
