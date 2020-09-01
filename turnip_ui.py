@@ -51,7 +51,7 @@ if __name__ == "__main__":
     elif now.hour >= 12:
         time = "Afternoon"
     else:
-        time = "NULL"
+        time = "ERROR"
     tp = td.TurnipDatabase()
     price = get_price()
     tp.insert_price(price, weekday, time)
