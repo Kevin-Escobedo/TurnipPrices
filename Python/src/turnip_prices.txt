@@ -1,0 +1,11 @@
+1,73,70,Tuesday
+2,67,63,Wednesday
+3,116,141,Thursday
+4,209,133,Friday
+5,126,59,Saturday
+6,94,76,Monday
+7,71,99,Tuesday
+8,127,120,Wednesday
+9,131,73,Thursday
+10,65,60,Friday
+11,135,118,Saturday
