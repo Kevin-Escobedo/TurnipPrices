@@ -164,6 +164,7 @@ int TurnipDatabase::length(const char* tableName)
 			return -1;
 		}
 
+		sqlite3_free(zErrMsg);
 		return 0;
 	}
 
