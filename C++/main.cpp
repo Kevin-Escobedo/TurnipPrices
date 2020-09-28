@@ -95,7 +95,7 @@ int main(int argc, char** argv)
 		if(system(nullptr))
 		{
 			char values[100];
-			sprintf(values, "git add *.db && git commit -m \"Added %s %s price && git push", weekday, time);
+			sprintf(values, "git add *.db && git commit -m \"Added %s %s price\" && git push", weekday, time);
 			int command = system(values);
 
 			if(debug)
