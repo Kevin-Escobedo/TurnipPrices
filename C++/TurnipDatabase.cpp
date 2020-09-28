@@ -27,7 +27,7 @@ TurnipDatabase::TurnipDatabase(const TurnipDatabase& td)
 
 TurnipDatabase::~TurnipDatabase()
 {
-	sqlite3_close(db);
+	//sqlite3_close(db);
 }
 
 TurnipDatabase& TurnipDatabase::operator =(const TurnipDatabase& td)
