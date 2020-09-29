@@ -16,6 +16,7 @@ private:
 	char* sql;
 	int priceSize;
 	int costSize;
+	bool isOpen = false;
 public:
 	TurnipDatabase();
 	TurnipDatabase(const TurnipDatabase& td);
