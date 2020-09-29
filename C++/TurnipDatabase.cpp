@@ -16,6 +16,7 @@ TurnipDatabase::TurnipDatabase()
 	{
 		priceSize = length("PRICES");
 		costSize = length("COSTS");
+		isOpen = true;
 	}
 }
 
@@ -27,7 +28,11 @@ TurnipDatabase::TurnipDatabase(const TurnipDatabase& td)
 
 TurnipDatabase::~TurnipDatabase()
 {
-	//sqlite3_close(db);
+	if(isOpen)
+	{
+		sqlite3_close(db);
+		isOpen = false;
+	}
 }
 
 TurnipDatabase& TurnipDatabase::operator =(const TurnipDatabase& td)
@@ -121,7 +126,11 @@ void TurnipDatabase::insertCost(int cost, int amount)
 
 void TurnipDatabase::close()
 {
-	sqlite3_close(db);
+	if(isOpen)
+	{
+		sqlite3_close(db);
+		isOpen = false;
+	}
 }
 
 int TurnipDatabase::callback(void* NotUsed, int argc, char** argv, char** azColName)
