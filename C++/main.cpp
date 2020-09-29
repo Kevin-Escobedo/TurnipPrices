@@ -1,7 +1,5 @@
 #include "TurnipDatabase.h"
 #include <ctime>
-#include <stdio.h>
-#include <stdlib.h>
 #include <map>
 
 int main(int argc, char** argv)
@@ -29,7 +27,6 @@ int main(int argc, char** argv)
 	weekdays[5] = "Friday";
 	weekdays[6] = "Saturday";
 
-	const bool debug = false;
 
 	if(day == 0)
 	{
@@ -50,26 +47,8 @@ int main(int argc, char** argv)
 			cin >> amount;
 		}
 
-		if(system(nullptr))
-		{
-			int command = system("ls");
-			if(debug)
-			{
-				cout<<command<<endl;
-			}
-		}
-
 		td.insertCost(cost, amount);
-		td.close();
 
-		if(system(nullptr))
-		{
-			int command = system("git add *.db && git commit -m \"Added new cost datapoint\" && git push");
-			if(debug)
-			{
-				cout<<command<<endl;
-			}
-		}
 	}
 
 	else
@@ -90,19 +69,6 @@ int main(int argc, char** argv)
 		}
 
 		td.insertPrice(price, weekday, time);
-		td.close();
-
-		if(system(nullptr))
-		{
-			char values[100];
-			sprintf(values, "git add *.db && git commit -m \"Added %s %s price\" && git push", weekday, time);
-			int command = system(values);
-
-			if(debug)
-			{
-				cout<<command<<endl;
-			}
-		}
 	}
 	
 	return 0;
