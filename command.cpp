@@ -54,7 +54,7 @@ int main(int argc, char** argv)
 			const char* weekday = weekdays[day];
 			const char* time = (hour >= 12) ? "afternoon" : "morning";
 
-			char values[300];
+			char values[175];
 			sprintf(values, "git pull && cd Python && ./price && cd ../C++ && ./turnip && cd .. && git add C++/*.db && git add Python/*.db && git commit -m \"Added %s %s price\" && git push", weekday, time);
 
 			int command = system(values);
