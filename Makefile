@@ -1,15 +1,18 @@
-CXXFLAGS=-std=c++11 -Wpedantic -Wall -Werror -Wextra -Weffc++ -Wzero-as-null-pointer-constant
+CC=g++
+CFLAGS=-std=c++11 -g -Wpedantic -Wall -Werror -Wextra -Weffc++ -Wzero-as-null-pointer-constant
 OPTIMIZE=-O2
+
 FILES=Database.h Database.cpp TurnipDatabase.h TurnipDatabase.cpp main.cpp
 LIBRARIES=-l sqlite3
-OUTPUT=turnip
 
-all: ${OUTPUT}
-${OUTPUT}: ${FILES}
-	g++ ${CXXFLAGS} ${OPTIMIZE} ${FILES} ${LIBRARIES} -o ${OUTPUT}
+TARGET=turnip
 
-run: ${OUTPUT}
-	valgrind ./${OUTPUT}
+all: ${TARGET}
+${TARGET}: ${FILES}
+	${CC} ${CFLAGS} ${OPTIMIZE} ${FILES} ${LIBRARIES} -o ${TARGET}
+
+run: ${TARGET}
+	valgrind ./${TARGET}
 
 clean:
-	/bin/rm -f ${OUTPUT}
+	/bin/rm -f ${TARGET}
