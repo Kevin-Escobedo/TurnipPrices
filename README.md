@@ -1,4 +1,4 @@
-# Database of Turnip Prices in *Animal Crossing New Horizons*
+# Turnip Price Database in *Animal Crossing New Horizons*
 
 Simple C++ program I wrote to keep track of Animal Crossing turnip prices. Stores that data in a SQLite database.
 
