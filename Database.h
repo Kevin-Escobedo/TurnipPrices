@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <sqlite3.h>
+#include <ctime>
 
 class Database
 {
@@ -21,6 +22,7 @@ public:
 protected:
 	static int callback(void* NotUsed, int argc, char** argv, char** azColName);
 	int length(const char* tableName);
+	const char* currentTime();
 };
 
 #endif /* DATABASE_H */

@@ -100,3 +100,19 @@ int Database::length(const char* tableName)
 		return count;
 	}
 }
+
+const char* Database::currentTime()
+{
+	time_t t = time(nullptr);
+	tm* now = localtime(&t);
+	int year = now->tm_year + 1900;
+	int month = now->tm_mon + 1;
+	int day = now->tm_mday;
+	int hour = now->tm_hour;
+	int minute = now->tm_min;
+	int second = now->tm_sec;
+
+	char* buf = new char[64];
+	sprintf(buf, "%04d-%02d-%02d %02d:%02d:%02d", year, month, day, hour, minute, second);
+	return buf;
+}
