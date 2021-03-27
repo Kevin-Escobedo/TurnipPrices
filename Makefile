@@ -1,5 +1,5 @@
 CC=g++
-CFLAGS=-std=c++11 -g -Wpedantic -Wall -Werror -Wextra -Weffc++ -Wzero-as-null-pointer-constant
+CFLAGS=-std=c++17 -Wpedantic -Wall -Werror -Wextra -Weffc++ -Wzero-as-null-pointer-constant
 OPTIMIZE=-O2
 
 FILES=Database.h Database.cpp TurnipDatabase.h TurnipDatabase.cpp main.cpp
