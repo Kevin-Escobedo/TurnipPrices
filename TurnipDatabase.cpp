@@ -8,10 +8,8 @@ TurnipDatabase::TurnipDatabase(const char* dbName) : Database(dbName)
 void TurnipDatabase::createPriceTable()
 {
 	const char* command = "CREATE TABLE IF NOT EXISTS PRICES(" \
-				"NUM INT PRIMARY KEY NOT NULL, "\
-				"PRICE INT NOT NULL, "\
-				"DAY TEXT NOT NULL, "\
-				"TIME TEXT NOT NULL );";
+				"TIME TIMESTAMP PRIMARY KEY NOT NULL, "\
+				"PRICE INT NOT NULL );";
 
 	rc = sqlite3_exec(db, command, callback, nullptr, &zErrMsg);
 
@@ -25,10 +23,9 @@ void TurnipDatabase::createPriceTable()
 void TurnipDatabase::createCostTable()
 {
 	const char* command = "CREATE TABLE IF NOT EXISTS COSTS("\
-				"WEEK INT PRIMARY KEY NOT NULL, "\
+				"TIME TIMESTAMP PRIMARY KEY NOT NULL, "\
 				"COST INT NOT NULL, "\
-				"AMOUNT INT NOT NULL, "\
-				"TOTAL INT NOT NULL );";
+				"AMOUNT INT NOT NULL );";
 
 	rc = sqlite3_exec(db, command, callback, nullptr, &zErrMsg);
 
@@ -39,12 +36,13 @@ void TurnipDatabase::createCostTable()
 	}
 }
 
-void TurnipDatabase::addPrice(const int& price, const char* day, const char* time)
+void TurnipDatabase::addPrice(const int price)
 {
-	char values[128];
-	sprintf(values, "VALUES(%d, %d, '%s', '%s');", length("PRICES"), price, day, time);
+	const char* now = currentTime();
+	char values[64];
+	sprintf(values, "VALUES('%s', %d);", now, price);
 	std::string dataValues(values);
-	std::string sqlCommand = "INSERT INTO PRICES(NUM, PRICE, DAY, TIME) ";
+	std::string sqlCommand = "INSERT INTO PRICES(TIME, PRICE) ";
 	std::string tempCommand = sqlCommand + dataValues;
 	const char* command = tempCommand.c_str();
 
@@ -55,14 +53,17 @@ void TurnipDatabase::addPrice(const int& price, const char* day, const char* tim
 		fprintf(stderr, "SQL Error: %s\n", zErrMsg);
 		sqlite3_free(zErrMsg);
 	}
+
+	delete[] now;
 }
 
-void TurnipDatabase::addCost(const int& cost, const int& amount)
+void TurnipDatabase::addCost(const int cost, const int amount)
 {
-	char values[128];
-	sprintf(values, "VALUES(%d, %d, %d, %d);", length("COSTS"), cost, amount, cost * amount);
+	const char* now = currentTime();
+	char values[64];
+	sprintf(values, "VALUES('%s', %d, %d);", now, cost, amount);
 	std::string dataValues(values);
-	std::string sqlCommand = "INSERT INTO COSTS(WEEK, COST, AMOUNT, TOTAL) ";
+	std::string sqlCommand = "INSERT INTO COSTS(TIME, COST, AMOUNT) ";
 	std::string tempCommand = sqlCommand + dataValues;
 	const char* command = tempCommand.c_str();
 
@@ -73,4 +74,6 @@ void TurnipDatabase::addCost(const int& cost, const int& amount)
 		fprintf(stderr, "SQL Error: %s\n", zErrMsg);
 		sqlite3_free(zErrMsg);
 	}
+
+	delete[] now;
 }

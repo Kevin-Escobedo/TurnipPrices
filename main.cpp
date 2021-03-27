@@ -1,30 +1,16 @@
 #include "TurnipDatabase.h"
-#include <ctime>
-#include <map>
 
 int main(int argc, char** argv)
 {
 	TurnipDatabase td("turnips.db");
-	td.createPriceTable();
-	td.createCostTable();
 
 	time_t t = time(nullptr);
 	tm* now = localtime(&t);
-	int hour = now->tm_hour;
 	int day = now->tm_wday;
-
-	std::map<int, const char*> weekdays;
-
-	weekdays[0] = "Sunday";
-	weekdays[1] = "Monday";
-	weekdays[2] = "Tuesday";
-	weekdays[3] = "Wednesday";
-	weekdays[4] = "Thursday";
-	weekdays[5] = "Friday";
-	weekdays[6] = "Saturday";
 
 	if(day == 0)
 	{
+		td.createCostTable();
 		int cost = -1;
 		int amount = -1;
 
@@ -48,9 +34,7 @@ int main(int argc, char** argv)
 
 	else
 	{
-		const char* weekday = weekdays[day];
-		const char* time = (hour >= 12) ? "Afternoon" : "Morning";
-
+		td.createPriceTable();
 		int price = -1;
 		
 		if(argc == 2)
@@ -64,7 +48,7 @@ int main(int argc, char** argv)
 			std::cin>>price;
 		}
 
-		td.addPrice(price, weekday, time);
+		td.addPrice(price);
 	}
 
 	return 0;
